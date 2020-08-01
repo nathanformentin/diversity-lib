@@ -53,3 +53,10 @@ def p_correlation(predict1,predict2,correct_answer):
     N00, N01, N10, N11 = matrix_generator(predict1,predict2,correct_answer,visualize=False)
     p_correlation = (N11*N00 - N01*N10) / sqrt((N11+N10)*(N01+N00)(N11*N01)*(N10+N00))
 
+def avg_disagreement(classifier_list,correct_answer):
+    clf1 = 0
+    clf2 = clf1 + 1
+    for clf1 in range (len(classifier_list[0])):
+        for clf2 in range(len(classifier_list[0])):
+            disagreement_sum += disagreement(classifier_list[clf],classifier_list[clf+1],correct_answer)
+    return 2*disagreement_sum/(len(classifierlist)*len(classifierlist-1))
