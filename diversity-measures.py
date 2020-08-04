@@ -60,3 +60,19 @@ def avg_disagreement(classifier_list,correct_answer):
         for clf2 in range(len(classifier_list[0])):
             disagreement_sum += disagreement(classifier_list[clf],classifier_list[clf+1],correct_answer)
     return 2*disagreement_sum/(len(classifierlist)*len(classifierlist-1))
+
+
+def kohavi_wolpert_variance(n_class,avg_disagreement):
+    return ((n_class-1)*avg_disagreement)/(2*n_class)
+
+def entropy_measure(classifier_list,correct_answer):
+    corrects = 0
+    for instance in range(len(classifier_list[0])):
+        for classifier in range(n_classifiers):
+            if classifier[classifier][instance] == correct_answer:
+                corrects +=1
+        min = min(corrects,n_classifiers-corrects)
+        accumulated_entropy = min/(L-ceil(L/2))
+        corrects = 0
+    entropy = accumulated_entropy/len(classifier_list[0])
+    return entropy
