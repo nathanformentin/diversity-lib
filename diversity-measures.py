@@ -35,25 +35,36 @@ def matrix_generator(predict1,predict2,correct_answer,visualize):
 
 def pw_double_fault_measure(predict1,predict2,correct_answer):
     N00, _, _, _ = matrix_generator(predict1,predict2,correct_answer,visualize=False)
-    return N00/len(predict1)
+    return (N00/
+            len(predict1)
     
 
 def pw_q_statistic(predict1,predict2,correct_answer): #n11*n00 - n01*n10 / n11*n00 + n01*n10
     N00, N01, N10, N11 = matrix_generator(predict1,predict2,correct_answer,visualize=False)
-    return (N11*N00 - N01*N10)/(N11*N00+N01*N10)
+    return ((N11*N00 -
+             N01*N10) /
+            (N11*N00+
+             N01*N10))
  
                  
 def disagreement(predict1,predict2,correct_answer):
     _, N01, N10, _ = matrix_generator(predict1,predict2,correct_answer,visualize=False)
-    return (N01 + N10) / len(predict1)
+    return (N01 + N10) /
+            len(predict1)
 
 def pw_agreement(predict1,predict2,correct_answer):
     N00, _, _, N11 = matrix_generator(predict1,predict2,correct_answer,visualize=False)
-    return (N11 + N00) / len(predict1)
+    return (N11 + N00) /
+            len(predict1)
 
 def p_correlation(predict1,predict2,correct_answer):
     N00, N01, N10, N11 = matrix_generator(predict1,predict2,correct_answer,visualize=False)
-    return (N11*N00 - N01*N10)/sqrt((N11+N10)*(N01+N00)*(N11*N01)*(N10+N00))
+    return (N11*N00 -
+            N01*N10) /
+            sqrt((N11+N10) *
+                 (N01+N00) *
+                 (N11*N01) *
+                 (N10+N00))
 
 
 def avg_disagreement(predicts_vector,correct_answer):
@@ -63,10 +74,14 @@ def avg_disagreement(predicts_vector,correct_answer):
     for clf1 in range(clf1,len(predicts_vector)):
         for clf2 in range(clf1+1,len(predicts_vector)):
             disagreement_sum += disagreement(predicts_vector[clf1],predicts_vector[clf2],correct_answer)
-    return (2*disagreement_sum)/(len(predicts_vector)*(len(predicts_vector)-1))
+    return ((2*disagreement_sum) /
+            (len(predicts_vector) * 
+             (len(predicts_vector)-1)))
 
 def kohavi_wolpert_variance(n_class,avg_disagreement):
-    return ((n_class-1)*avg_disagreement)/(2*n_class)
+    return (((n_class-1)* 
+             avg_disagreement) /
+            (2*n_class))
 
 def entropy_measure(predicts_vector,correct_answer):
     corrects = 0
@@ -79,7 +94,8 @@ def entropy_measure(predicts_vector,correct_answer):
         less_frequent = min(corrects,n_classifiers-corrects)
         accumulated_entropy = less_frequent/((n_classes)-ceil(n_classes/2))
         corrects = 0
-    entropy = accumulated_entropy/len(predicts_vector[0])
+    entropy = (accumulated_entropy /
+               len(predicts_vector[0]))
     return entropy
 
 def difficulty_measure(predicts_vector,correct_answer):
